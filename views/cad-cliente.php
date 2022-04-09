@@ -1,3 +1,9 @@
+<?php
+    require_once __DIR__ . "/../vendor/autoload.php";
+
+    use App\Models\Cliente;
+    use App\Controllers\ClienteController;
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,10 +34,19 @@
     //insert into cliente (nome, telefone, email, endereco) values ('renato', '64992481630', 'renato.abreu@ifg.edu.br', 'Rua x Ny')
         if (isset($_POST['enviar'])){
 
+            $cliente = new Cliente();
+            $cliente->setNome($_POST['nome']);
+            $cliente->setTelefone($_POST['telefone']);
+            $cliente->setEmail($_POST['email']);
+            $cliente->setEndereco($_POST['endereco']);
+
+
             echo "Nome: " . $_POST['nome'] . "<br>";
             echo "Telefone: " . $_POST['telefone'] . "<br>";
             echo "Email: " . $_POST['email'] . "<br>";
             echo "Endereço: " . $_POST['endereco'] . "<br>";
+
+            echo ClienteController::getInstance()->inserir($cliente);
         }
     ?>
     <form action="#" method="post" class="col s6 offset-s3">
