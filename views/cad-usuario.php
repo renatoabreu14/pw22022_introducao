@@ -1,8 +1,8 @@
 <?php
     require_once __DIR__ . "/../vendor/autoload.php";
 
-    use App\Models\Cliente;
-    use App\Controllers\ClienteController;
+    use App\Models\Usuario;
+    use App\Controllers\UsuarioController;
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,6 +11,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
@@ -27,29 +28,27 @@
         </ul>
     </div>
 </nav>
+<div class="container">
 <div class="row">
 
     <?php
     //singleton
     //insert into cliente (nome, telefone, email, endereco) values ('renato', '64992481630', 'renato.abreu@ifg.edu.br', 'Rua x Ny')
+    $sucesso = false;
         if (isset($_POST['enviar'])){
 
-            $cliente = new Cliente();
-            $cliente->setNome($_POST['nome']);
-            $cliente->setTelefone($_POST['telefone']);
-            $cliente->setEmail($_POST['email']);
-            $cliente->setEndereco($_POST['endereco']);
+            $usuario = new Usuario();
+            $usuario->setNome($_POST['nome']);
+            $usuario->setTelefone($_POST['telefone']);
+            $usuario->setEmail($_POST['email']);
+            $usuario->setSenha($_POST['senha']);
 
-
-            echo "Nome: " . $_POST['nome'] . "<br>";
-            echo "Telefone: " . $_POST['telefone'] . "<br>";
-            echo "Email: " . $_POST['email'] . "<br>";
-            echo "Endereço: " . $_POST['endereco'] . "<br>";
-
-            echo ClienteController::getInstance()->inserir($cliente);
+            if (UsuarioController::getInstance()->inserir($usuario)){
+                $sucesso = true;
+            }
         }
     ?>
-    <form action="#" method="post" class="col s6 offset-s3">
+    <form action="#" method="post" class="col s6 ">
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">account_circle</i>
@@ -71,20 +70,26 @@
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <i class="material-icons prefix">place</i>
-                <textarea id="textarea1" class="materialize-textarea" name="endereco"></textarea>
-                <label for="textarea1">Endereço</label>
+                <i class="material-icons prefix">lock</i>
+                <input id="senha" type="password" class="validate" name="senha">
+                <label for="senha">Senha</label>
             </div>
         </div>
         <div class="row">
-            <a href="#" class="btn waves-effect waves-light red"><i class="material-icons left">cancel</i>Cancelar</a>
-            <button class="btn waves-effect waves-light" type="submit" name="enviar">Enviar
-                <i class="material-icons right">send</i>
-            </button>
+            <div class="col col-6">
+                <a href="#" class="btn waves-effect waves-light red"><i class="material-icons left">cancel</i>Cancelar</a>
+            </div>
+            <div class="col col-6">
+                <button class="btn waves-effect waves-light" type="submit" name="enviar">Enviar
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
         </div>
     </form>
 </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
