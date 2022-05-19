@@ -47,31 +47,39 @@
                 $sucesso = true;
             }
         }
+
+        if ($sucesso) {
+            ?>
+            <div class="alert alert-primary" role="alert">
+                Usuário inserido com sucesso!
+            </div>
+            <?php
+        }
     ?>
     <form action="#" method="post" class="col s6 ">
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">account_circle</i>
-                <input id="icon_prefix" type="text" class="validate" name="nome">
+                <input id="icon_prefix" type="text" class="validate" name="nome" required>
                 <label for="icon_prefix">Nome</label>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">phone</i>
-                <input id="icon_prefix" type="text" class="validate" name="telefone">
+                <input id="icon_prefix" type="text" class="validate" name="telefone" required>
                 <label for="icon_prefix">Telefone</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">email</i>
-                <input id="icon_prefix" type="email" class="validate" name="email">
+                <input id="icon_prefix" type="email" class="validate" name="email" required>
                 <label for="icon_prefix">Email</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>
-                <input id="senha" type="password" class="validate" name="senha">
+                <input id="senha" type="password" class="validate" name="senha" required>
                 <label for="senha">Senha</label>
             </div>
         </div>
