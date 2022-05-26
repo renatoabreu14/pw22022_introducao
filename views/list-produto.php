@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/../vendor/autoload.php";
 
-use App\Models\Usuario;
-use App\Controllers\UsuarioController;
+use App\Models\Produto;
+use App\Controllers\ProdutoController;
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,42 +19,42 @@ use App\Controllers\UsuarioController;
 </head>
 <body>
 <?php
-    include_once "menu.php";
+include_once "menu.php";
 ?>
 <div class="container">
     <div class="row">
-        <h4>Lista de Usuários</h4>
+        <h4>Lista de Produtos</h4>
     </div>
     <div class="row">
         <div class="col-2">
-            <a href="cad-usuario.php" class="btn-floating btn-large waves-effect waves-light">
+            <a href="cad-produto.php" class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">add</i>
             </a>
         </div>
     </div>
     <div class="row">
         <?php
-        $listaUsuarios = UsuarioController::getInstance()->listar();
+        $listaProdutos = ProdutoController::getInstance()->listar();
         ?>
 
         <table class="table table-hover">
             <thead>
             <tr>
                 <th>Nome</th>
-                <th>Email</th>
+                <th>Valor</th>
                 <th>-</th>
             </tr>
             </thead>
             <tbody>
-                <?php
-                    foreach ($listaUsuarios as $usuario){
-                        echo "<tr>
-                                <td>".$usuario->getNome()."</td>
-                                <td>".$usuario->getEmail()."</td>
+            <?php
+            foreach ($listaProdutos as $produto){
+                echo "<tr>
+                                <td>".$produto->getNome()."</td>
+                                <td>".$produto->getValor()."</td>
                                 <td></td>
                               </tr>";
-                    }
-                ?>
+            }
+            ?>
 
 
             </tbody>
