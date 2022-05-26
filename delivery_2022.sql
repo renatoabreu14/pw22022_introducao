@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 19-Maio-2022 às 20:00
+-- Tempo de geração: 26-Maio-2022 às 19:34
 -- Versão do servidor: 10.6.7-MariaDB-2ubuntu1
 -- versão do PHP: 8.1.2
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `delivery_2022`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produto`
+--
+
+CREATE TABLE `produto` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `descricao` text NOT NULL,
+  `valor` float NOT NULL,
+  `imagem` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `produto`
+--
+
+INSERT INTO `produto` (`id`, `nome`, `descricao`, `valor`, `imagem`) VALUES
+(1, 'Misto quente', 'teste', 10, '117693718_3331357456911214_7104077422484663271_o.jpg');
 
 -- --------------------------------------------------------
 
@@ -42,11 +63,18 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `telefone`) VALUES
 (1, 'Renato', 'renato.abreu.info@gmail.com', '123456', '64992481630'),
 (4, 'Renato', 'renato.abreu.info@gmail.com', '654987', '6513213215'),
-(5, 'Gabriel', 'gabriel.marques@estudantes.ifg.edu.br', '32165654', '31354+654');
+(5, 'Gabriel', 'gabriel.marques@estudantes.ifg.edu.br', '32165654', '31354+654'),
+(6, 'Maidson', 'mateus.maidson@estudantes.ifg.edu.br', 'e10adc3949ba59abbe56e057f20f883e', '65432135');
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `produto`
+--
+ALTER TABLE `produto`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `usuario`
@@ -59,10 +87,16 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de tabela `produto`
+--
+ALTER TABLE `produto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
