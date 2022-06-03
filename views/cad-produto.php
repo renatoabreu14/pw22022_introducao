@@ -3,6 +3,11 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\Models\Produto;
 use App\Controllers\ProdutoController;
+$produto = new Produto();
+if (isset($_GET['alterar'])){
+    $produto = ProdutoController::getInstance()->buscarProduto($_GET['produto_id']);
+}
+echo "id".$produto->getId();
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,11 +39,19 @@ include_once "menu.php";
         if (isset($_POST['enviar'])){
 
             $produto = new Produto();
+            $produto->setId($_POST['id']);
             $produto->setNome($_POST['nome']);
             $produto->setDescricao($_POST['descricao']);
             $produto->setValor($_POST['valor']);
-            $produto->setImagem($_POST['imagem']);
 
+            if(isset($_FILES['imagem']))
+            {
+                $ext = strtolower(substr($_FILES['imagem']['name'],-4)); //Pegando extensão do arquivo
+                $new_name = date("Y.m.d-H.i.s") . $ext; //Definindo um novo nome para o arquivo
+                $dir = './imagens/produtos/'; //Diretório para uploads
+                move_uploaded_file($_FILES['imagem']['tmp_name'], $dir.$new_name); //Fazer upload do arquivo
+                $produto->setImagem($new_name);
+            }
 
             if (ProdutoController::getInstance()->inserir($produto)){
                 $sucesso = true;
@@ -53,11 +66,12 @@ include_once "menu.php";
             <?php
         }
         ?>
-        <form action="#" method="post" class="col s6 ">
+        <form action="#" method="post" class="col s6 " enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $produto->getId();?>">
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="icon_prefix" type="text" class="validate" name="nome" required>
+                    <input id="icon_prefix" type="text" class="validate" name="nome" required value="<?php echo $produto->getNome();?>">
                     <label for="icon_prefix">Nome</label>
                 </div>
             </div>
