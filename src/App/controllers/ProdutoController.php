@@ -29,7 +29,29 @@ class ProdutoController{
         return $statement->execute();
     }
 
-    public function inserir(Produto $produto){
+    public function gravar(Produto $produto){
+        if ($produto->getId() <= 0){
+            return $this->inserir($produto);
+        }else{
+            return $this->alterar($produto);
+        }
+    }
+
+    private function alterar(Produto $produto){
+        $sql = "UPDATE produto SET nome = :nome, 
+                   descricao = :descricao, valor = :valor, 
+                   imagem = :imagem WHERE id = :id";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindValue(":nome", $produto->getNome());
+        $statement->bindValue(":descricao", $produto->getDescricao());
+        $statement->bindValue(":valor", $produto->getValor());
+        $statement->bindValue(":imagem", $produto->getImagem());
+        $statement->bindValue(":id", $produto->getId());
+
+        return $statement->execute();
+    }
+
+    private function inserir(Produto $produto){
         $sql = "INSERT INTO produto (nome, descricao, valor, imagem) 
                 VALUES (:nome, :descricao, :valor, :imagem)";
         $statement = $this->conexao->prepare($sql);
