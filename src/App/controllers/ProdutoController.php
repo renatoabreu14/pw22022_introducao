@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Produto;
 
 class ProdutoController{
@@ -40,31 +41,36 @@ class ProdutoController{
     private function alterar(Produto $produto){
         $sql = "UPDATE produto SET nome = :nome, 
                    descricao = :descricao, valor = :valor, 
-                   imagem = :imagem WHERE id = :id";
+                   imagem = :imagem, categoria_id = :categoria_id 
+               WHERE id = :id";
         $statement = $this->conexao->prepare($sql);
         $statement->bindValue(":nome", $produto->getNome());
         $statement->bindValue(":descricao", $produto->getDescricao());
         $statement->bindValue(":valor", $produto->getValor());
         $statement->bindValue(":imagem", $produto->getImagem());
+        $statement->bindValue(":categoria_id", $produto->getCategoria()->getId());
         $statement->bindValue(":id", $produto->getId());
 
         return $statement->execute();
     }
 
     private function inserir(Produto $produto){
-        $sql = "INSERT INTO produto (nome, descricao, valor, imagem) 
-                VALUES (:nome, :descricao, :valor, :imagem)";
+        $sql = "INSERT INTO produto (nome, descricao, valor, imagem, categoria_id) 
+                VALUES (:nome, :descricao, :valor, :imagem, :categoria_id)";
         $statement = $this->conexao->prepare($sql);
         $statement->bindValue(":nome", $produto->getNome());
         $statement->bindValue(":descricao", $produto->getDescricao());
         $statement->bindValue(":valor", $produto->getValor());
         $statement->bindValue(":imagem", $produto->getImagem());
+        $statement->bindValue(":categoria_id", $produto->getCategoria()->getId());
 
         return $statement->execute();
     }
 
     public function buscarProduto($produto_id){
-        $sql = "SELECT * FROM produto WHERE id = :id";
+        $sql = "SELECT p.*, c.descricao AS categoria FROM produto AS p 
+                    INNER JOIN categoria AS c ON c.id = p.categoria_id 
+                WHERE p.id = :id";
         $statement = $this->conexao->prepare($sql);
         $statement->bindValue(":id", $produto_id);
         $statement->execute();
@@ -77,7 +83,8 @@ class ProdutoController{
     }
 
     public function listar(){
-        $sql = "SELECT * FROM produto ORDER BY nome";
+        $sql = "SELECT p.*, c.descricao AS categoria FROM produto AS p 
+                    INNER JOIN categoria AS c ON c.id = p.categoria_id ORDER BY p.nome";
         $statement = $this->conexao->query($sql, \PDO::FETCH_ASSOC);
         $lstretorno = array();
         foreach ($statement as $row){
@@ -93,6 +100,10 @@ class ProdutoController{
         $produto->setDescricao($row["descricao"]);
         $produto->setValor($row["valor"]);
         $produto->setImagem($row["imagem"]);
+        $categoria = new Categoria();
+        $categoria->setId($row["categoria_id"]);
+        $categoria->setDescricao($row["categoria"]);
+        $produto->setCategoria($categoria);
         return $produto;
     }
 }

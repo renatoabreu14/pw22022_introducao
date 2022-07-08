@@ -8,6 +8,7 @@ class Produto{
     private $descricao;
     private $valor;
     private $imagem;
+    private $categoria;
 
     /**
      * @param $id
@@ -15,6 +16,7 @@ class Produto{
     public function __construct()
     {
         $this->id = 0;
+        $this->categoria = new Categoria();
     }
 
 
@@ -96,6 +98,22 @@ class Produto{
     public function setImagem($imagem)
     {
         $this->imagem = $imagem;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * @param mixed $categoria
+     */
+    public function setCategoria($categoria)
+    {
+        $this->categoria = $categoria;
     }
 
 }
