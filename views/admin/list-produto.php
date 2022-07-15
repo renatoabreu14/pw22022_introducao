@@ -1,12 +1,13 @@
 <?php
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 require_once 'verifica-sessao.php';
 
-use App\Controllers\CategoriaController;
+use App\Models\Produto;
+use App\Controllers\ProdutoController;
 
 $exclusao = false;
 if (isset($_GET['excluir'])){
-    if (CategoriaController::getInstance()->excluir($_GET['categoria_id'])){
+    if (ProdutoController::getInstance()->excluir($_GET['produto_id'])){
         $exclusao = true;
     }
 }
@@ -30,49 +31,53 @@ include_once "menu.php";
 ?>
 <div class="container">
     <?php
-    if ($exclusao) {
-        ?>
+        if ($exclusao) {
+    ?>
         <div class="alert alert-danger" role="alert">
-            Categoria excluída com sucesso!
+            Produto excluído com sucesso!
         </div>
-        <?php
-    }
+    <?php
+        }
     ?>
     <div class="row">
-        <h4>Lista de Categorias</h4>
+        <h4>Lista de Produtos</h4>
     </div>
     <div class="row">
         <div class="col-2">
-            <a href="cad-categoria.php" class="btn-floating btn-large waves-effect waves-light">
+            <a href="cad-produto.php" class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">add</i>
             </a>
         </div>
     </div>
     <div class="row">
         <?php
-        $listaCategorias = CategoriaController::getInstance()->listar();
+        $listaProdutos = ProdutoController::getInstance()->listar();
         ?>
 
         <table class="table table-hover">
             <thead>
-            <tr style="height: 35px">
-                <th class="col col-10">Descricão</th>
-                <th class="col col-2">-</th>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>-</th>
             </tr>
             </thead>
             <tbody>
             <?php
-            foreach ($listaCategorias as $categoria){
-                echo "<tr style='height: 50px'>
-                        <td class='col col-10'>".$categoria->getDescricao()."</td>
-                        <td class='col col-2'>
-                            <a href='list-categoria.php?excluir=true&categoria_id="
-                    .$categoria->getId()."' class='waves-effect waves-light btn red' 
+            foreach ($listaProdutos as $produto){
+                echo "<tr>
+                        <td><img src='./imagens/produtos/".$produto->getImagem()."' width='150px' height='150px'> </td>
+                        <td>".$produto->getNome()."</td>
+                        <td>".$produto->getValor()."</td>
+                        <td>
+                            <a href='list-produto.php?excluir=true&produto_id="
+                            .$produto->getId()."' class='waves-effect waves-light btn red' 
                             alt='Excluir' title='Excluir'>
                                 <span class='material-icons'>delete</span>
                             </a>
-                            <a href='cad-categoria.php?alterar=true&produto_id="
-                    .$categoria->getId()."' class='waves-effect waves-light btn yellow' 
+                            <a href='cad-produto.php?alterar=true&produto_id="
+                    .$produto->getId()."' class='waves-effect waves-light btn red' 
                             alt='Alterar' title='Alterar'>
                                 <span class='material-icons'>edit</span>
                             </a>

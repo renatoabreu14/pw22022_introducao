@@ -93,6 +93,21 @@ class ProdutoController{
         return $lstretorno;
     }
 
+    public function listarPorCategoria($categoria_id){
+        $sql = "SELECT p.*, c.descricao AS categoria FROM produto AS p 
+                    INNER JOIN categoria AS c ON c.id = p.categoria_id AND p.categoria_id = :categoria 
+                    ORDER BY p.nome";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindValue(":categoria", $categoria_id);
+        $statement->execute();
+        $retornoBanco = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $lstretorno = array();
+        foreach ($retornoBanco as $row){
+            $lstretorno[] = $this->preencherProduto($row);
+        }
+        return $lstretorno;
+    }
+
     public function preencherProduto($row){
         $produto = new Produto();
         $produto->setId($row["id"]);

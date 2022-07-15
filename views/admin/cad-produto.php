@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 require_once 'verifica-sessao.php';
 
 use App\Models\Produto;
@@ -100,9 +100,9 @@ include_once "menu.php";
 
                         <?php
                         if ($produto->getCategoria()->getId() == 0){
-                            echo "<option value='' disabled selected>Choose your option</option>";
+                            echo "<option value='' disabled selected>Escolha uma categoria</option>";
                         }else{
-                            echo "<option value='' disabled>Choose your option</option>";
+                            echo "<option value='' disabled>Escolha uma categoria</option>";
                         }
 
 
